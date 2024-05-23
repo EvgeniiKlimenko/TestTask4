@@ -1,6 +1,7 @@
 package com.brokenhead.service;
 
 import com.brokenhead.model.response.PostResponse;
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -18,6 +19,7 @@ public class PostsRestService implements RestService<PostResponse> {
     @Override
     public List<PostResponse> getAllEntities() {
         return given()
+                .filter(new AllureRestAssured())
                 .contentType(ContentType.JSON)
                 .log().method()
                 .log().uri()
@@ -34,6 +36,7 @@ public class PostsRestService implements RestService<PostResponse> {
     @Override
     public List<PostResponse> getListOfEntities(Map<String, String> queryParams) {
         return given()
+                .filter(new AllureRestAssured())
                 .log().all()
                 .contentType(ContentType.JSON)
                 .queryParams(queryParams)
@@ -50,6 +53,7 @@ public class PostsRestService implements RestService<PostResponse> {
     @Override
     public PostResponse getSingleEntity(String entityId) {
         return given()
+                .filter(new AllureRestAssured())
                 .contentType(ContentType.JSON)
                 .log().method()
                 .log().uri()
@@ -65,6 +69,7 @@ public class PostsRestService implements RestService<PostResponse> {
     @Override
     public PostResponse createEntity(String requestBody) {
         return given()
+                .filter(new AllureRestAssured())
                 .body(requestBody)
                 .log().all()
                 .contentType(ContentType.JSON)
@@ -81,6 +86,7 @@ public class PostsRestService implements RestService<PostResponse> {
     @Override
     public PostResponse updateEntity(String entityId, String requestBody) {
         return given()
+                .filter(new AllureRestAssured())
                 .body(requestBody)
                 .contentType(ContentType.JSON)
                 .when()
@@ -92,6 +98,7 @@ public class PostsRestService implements RestService<PostResponse> {
     @Override
     public PostResponse patchEntity(String entityId, String requestBody) {
         return given()
+                .filter(new AllureRestAssured())
                 .body(requestBody)
                 .contentType(ContentType.JSON)
                 .when()
@@ -103,6 +110,7 @@ public class PostsRestService implements RestService<PostResponse> {
     @Override
     public Response deleteEntity(String entityId) {
         return given()
+                .filter(new AllureRestAssured())
                 .log().method()
                 .log().uri()
                 .contentType(ContentType.JSON)
@@ -111,12 +119,3 @@ public class PostsRestService implements RestService<PostResponse> {
                 .andReturn();
     }
 }
-
-/*
-
-Allure.addAttachment("Put Request Details", "application/json", ofNullable(payload).map(Object::toString).orElse
-(EMPTY), "json");
-Allure.addAttachment("GET Response Details for endpoint: " + baseURI + specificResourceUri, "application/json",
-response.asString(), "json");
-
- */

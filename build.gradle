@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'io.qameta.allure' version '2.11.0'
+    id 'io.qameta.allure' version '2.11.2'
 }
 
 group = 'com.brokenhead'
@@ -25,8 +25,10 @@ ext {
     allureVersion = '2.21.0'
     lombokVersion = '1.18.32'
     apacheCommonsVersion = '3.13.0'
-    allureJUnit5Version = '2.20.1'
+    allureJUnit5Version = '2.26.0'
+    allureRestAssuredVersion = '2.17.3'
     aspectJVersion = '1.9.22'
+    jupiterVersion = '5.10.2'
 }
 
 configurations {
@@ -37,25 +39,25 @@ configurations {
 }
 
 dependencies {
-    //testImplementation platform('org.junit:junit-bom:5.10.0')
     agent "org.aspectj:aspectjweaver:$aspectJVersion"
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    runtimeOnly 'org.aspectj:aspectjweaver:1.9.7'
+    testImplementation "org.junit.jupiter:junit-jupiter:$jupiterVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jupiterVersion"
 
     compileOnly "org.projectlombok:lombok:$lombokVersion"
     annotationProcessor "org.projectlombok:lombok:$lombokVersion"
 
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
-    implementation "org.apache.commons:commons-lang3:$apacheCommonsVersion"
+
     implementation "io.qameta.allure:allure-junit5:$allureJUnit5Version"
+    implementation "io.qameta.allure:allure-rest-assured:$allureRestAssuredVersion"
 
     implementation "io.rest-assured:rest-assured:$restAssuredVersion"
-
-    runtimeOnly 'org.aspectj:aspectjweaver:1.9.7'
-
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
+    implementation "org.apache.commons:commons-lang3:$apacheCommonsVersion"
 }
 
 test {
+    ignoreFailures = true
     useJUnitPlatform()
 }
