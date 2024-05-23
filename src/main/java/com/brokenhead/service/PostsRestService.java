@@ -23,6 +23,10 @@ public class PostsRestService implements RestService<PostResponse> {
                 .log().uri()
                 .when()
                 .get(FULL_URL)
+                .then()
+                .assertThat().statusCode(200)
+                .log().body()
+                .extract()
                 .as(new TypeRef<>() {
                 });
     }
@@ -36,6 +40,7 @@ public class PostsRestService implements RestService<PostResponse> {
                 .when()
                 .get(FULL_URL)
                 .then()
+                .assertThat().statusCode(200)
                 .log().body()
                 .extract()
                 .as(new TypeRef<>() {
@@ -51,6 +56,7 @@ public class PostsRestService implements RestService<PostResponse> {
                 .when()
                 .get(FULL_URL + "/" + entityId)
                 .then()
+                .assertThat().statusCode(200)
                 .log().body()
                 .extract()
                 .as(PostResponse.class);
@@ -65,6 +71,7 @@ public class PostsRestService implements RestService<PostResponse> {
                 .when()
                 .post(FULL_URL)
                 .then()
+                .assertThat().statusCode(201)
                 .log().status()
                 .log().body()
                 .extract()
