@@ -12,6 +12,7 @@ import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -37,11 +38,24 @@ public class CreatePostTest {
         assertEquals(requestBody.getBody(), createdPost.getBody());
     }
 
-    // NOTE: since this API is a "fake api", I disabled this test.
+    // Assuming that userId is a mandatory field with validations
+    @Test
+    @DisplayName("Test should successfully create a posts with only mandatory fields.")
+    public void testShouldCreateValidPostWithOnlyMandatoryFields() {
+        PostRequest requestBody = PostRequest.buildGenericPostRequest();
+        requestBody.setTitle("");
+        requestBody.setBody("");
+        PostResponse createdPost = postRestService.createEntity(requestBody.toString());
+
+        assertEquals(requestBody.getUserId(), createdPost.getUserId());
+        assertEquals(requestBody.getTitle(), createdPost.getTitle());
+        assertEquals(requestBody.getBody(), createdPost.getBody());
+    }
+
+    // NOTE: since this API is a "fake api", it returns 201 created
     // In real case, this negative test should return errors in responses, at least for userId=null.
-    // Assuming that userId is a mandatory field with validation
     @ParameterizedTest
-    @ValueSource(strings = {"\"stringId\"", "101.0543"})
+    @ValueSource(strings = {"\"stringId\"", "101.0543", "-10"})
     @NullSource
     @EmptySource
     @DisplayName("Test should return error on invalid userId values.")
@@ -54,11 +68,23 @@ public class CreatePostTest {
 
         String expectedMessage = "userId has invalid value";
         String actualMessage = exception.getMessage();
-
         assertTrue(actualMessage.contains(expectedMessage));
 
     }
 
+    // Assumption - in real case this should be a negative test with 400 BAD REQUEST
+    @Test
+    @DisplayName("Test should return error on empty request.")
+    public void testShouldReturnErrorOnEmptyRequest() {
+        PostResponse createdPost = postRestService.createEntity("");
+
+        assertNull(createdPost.getUserId());
+        assertNull(createdPost.getTitle());
+        assertNull(createdPost.getBody());
+        assertEquals(101, createdPost.getId());
+    }
+
+    // Assumption - that non-existing fields should be validated and return 400.
     @Test
     @DisplayName("Test should return error on non-existing field in request.")
     public void testShouldReturnErrorOnInvalidFieldName() {
