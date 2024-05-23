@@ -12,6 +12,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DeletePostsTest {
+
     private final RestService<PostResponse> postRestService = new PostsRestService();
 
     @Test
@@ -22,9 +23,7 @@ public class DeletePostsTest {
         assertEquals(200, code);
     }
 
-
-    // NOTE: since this API is a "fake api", I disabled this test.
-    // In real case, this negative test should return errors in responses.
+    // Assumption: in real case, this negative test should return errors in responses.
     @ParameterizedTest
     @ValueSource(strings = {"wrongId", "500", "\\n"})
     @DisplayName("Test should get error on invalid post ID")

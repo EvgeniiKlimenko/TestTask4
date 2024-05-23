@@ -42,7 +42,7 @@ public class GetPostsTest {
 
     @ParameterizedTest(name = "Search by parameter: {1}")
     @MethodSource("parametersProvider")
-    @DisplayName("Test should successfully get list of all posts by single parameter.")
+    @DisplayName("Test should successfully get list of posts by single parameter.")
     public void testShouldGetAllPostsBySingleParameter(Map<String, String> params, String key) {
         PostResponse post = postRestService.getListOfEntities(params).get(0);
         assertTrue(post.toString().contains(params.get(key)));
@@ -77,18 +77,27 @@ public class GetPostsTest {
         assertEquals(posts.get(0).getId(), postId);
     }
 
+    @ParameterizedTest(name = "Expect empty response on invalid {0}")
+    @MethodSource("invalidParametersProvider")
+    @DisplayName("Test should return empty list in response on invalid search parameter.")
+    public void testShouldReturnEmptyResponseOnInvalidParameters(Map<String, String> param, String field) {
+        List<PostResponse> posts = postRestService.getListOfEntities(param);
+        assertEquals(0, posts.size());
+    }
 
+    private static Stream<Arguments> invalidParametersProvider() {
+        return Stream.of(
+                Arguments.of(Map.of("title", "NoTitle"), "title"),
+                Arguments.of(Map.of("userId", "0"), "userId"),
+                Arguments.of(Map.of("body", "NoBody"), "body"),
+                Arguments.of(Map.of("id", "0"), "id"));
+    }
 
-
-        /*
-    by wrong userId - should be empty
-    by wrong id - should be empty
-    by wrong title - should be empty
-    by wrong body - should be empty
-
-     */
-
-
-
-
+    @Test
+    @DisplayName("Test should return list of all posts on non existing parameter in request.")
+    public void testShouldReturnListOfAllPostsOnNonExistingParameter() {
+        Map<String, String> param = Map.of("nonExistPar", "37");
+        List<PostResponse> posts = postRestService.getListOfEntities(param);
+        assertEquals(100, posts.size());
+    }
 }
