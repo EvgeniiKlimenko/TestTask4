@@ -2,7 +2,7 @@
 
 ##Tech stack of the project:
 - Java 17
-- Gradle
+- Gradle 7.2
 - RestAssured
 - JUnit5
 - Lombok
