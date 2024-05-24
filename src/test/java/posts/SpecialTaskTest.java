@@ -3,6 +3,7 @@ package posts;
 import com.brokenhead.model.response.PostResponse;
 import com.brokenhead.service.PostsRestService;
 import com.brokenhead.service.RestService;
+import io.qameta.allure.Allure;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -37,10 +38,16 @@ public class SpecialTaskTest {
                 .sorted(Map.Entry.comparingByValue())
                 .toList();
 
+        StringBuilder output = new StringBuilder();
         for (int i = sorted.size() - 1; i >= sorted.size() - 10; i--) {
             Map.Entry<String, Integer> entry = sorted.get(i);
+            output.append(entry.getKey())
+                    .append(" - ")
+                    .append(entry.getValue())
+                    .append("\n");
             System.out.println(entry.getKey() + " - " + entry.getValue());
         }
+        Allure.addAttachment("Find top ten most frequent words: \n", output.toString());
     }
 
 }

@@ -50,7 +50,7 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
 
-    implementation "io.qameta.allure:allure-junit5:$allureJUnit5Version"
+    testImplementation "io.qameta.allure:allure-junit5:$allureJUnit5Version"
     implementation "io.qameta.allure:allure-rest-assured:$allureRestAssuredVersion"
 
     implementation "io.rest-assured:rest-assured:$restAssuredVersion"
