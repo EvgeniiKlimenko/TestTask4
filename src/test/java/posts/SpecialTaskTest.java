@@ -39,15 +39,14 @@ public class SpecialTaskTest {
                 .toList();
 
         StringBuilder output = new StringBuilder();
-        for (int i = sorted.size() - 1; i >= sorted.size() - 10; i--) {
+        for (int i = sorted.size() - 1; i >= Integer.max(0, sorted.size() - 10); i--) {
             Map.Entry<String, Integer> entry = sorted.get(i);
             output.append(entry.getKey())
                     .append(" - ")
                     .append(entry.getValue())
                     .append("\n");
-            System.out.println(entry.getKey() + " - " + entry.getValue());
         }
+
         Allure.addAttachment("Find top ten most frequent words: \n", output.toString());
     }
-
 }
