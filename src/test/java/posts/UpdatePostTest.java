@@ -15,6 +15,7 @@ import java.util.random.RandomGenerator;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class UpdatePostTest {
@@ -67,24 +68,20 @@ public class UpdatePostTest {
 
     @Disabled("This test should check invalid values, but since API returns everything back " +
               "I receive exception on parsing response.")
-    @ParameterizedTest
-    @MethodSource("updateSingleFieldNegativeProvider")
+    @Test
     @DisplayName("Test should successfully get a post by ID.")
-    public void testShouldUpdatePostByIdWithSingleValue(String requestBody, String value) {
+    public void testShouldReturnErrorOnInvalidUpdateValues() {
         Integer postId = RandomGenerator.getDefault().nextInt(1, 101);
-        PostResponse updatedPost = postRestService.patchEntity(postId.toString(), requestBody);
-        assertTrue(updatedPost.toString().contains(value));
+        String innerObject = PostRequest.buildGenericPostRequest().toString();
+        String requestBody = POST_REQUEST_SINGLE_TEMPLATE.formatted("title", innerObject);
+
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            postRestService.patchEntity(postId.toString(), requestBody);
+        });
+
+        String expectedMessage = "Incompatible type for the field 'title'";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
     }
-
-    private static Stream<Arguments> updateSingleFieldNegativeProvider() {
-        String title = "125";
-        String body = PostRequest.buildGenericPostRequest().toString();
-        String titleRequest = POST_REQUEST_SINGLE_TEMPLATE.formatted("title", title);
-        String bodyRequest = POST_REQUEST_SINGLE_TEMPLATE.formatted("body", body);
-        return Stream.of(
-                Arguments.of(titleRequest, title),
-                Arguments.of(bodyRequest, body));
-    }
-
-
 }

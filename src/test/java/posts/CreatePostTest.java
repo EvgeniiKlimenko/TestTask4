@@ -54,7 +54,7 @@ public class CreatePostTest {
 
     // NOTE: since this API is a "fake api", it returns 201 created
     // In real case, this negative test should return errors in responses, at least for userId=null.
-    @ParameterizedTest
+    @ParameterizedTest(name = "Invalid value: {0}")
     @ValueSource(strings = {"\"stringId\"", "101.0543", "-10"})
     @NullSource
     @EmptySource
@@ -72,7 +72,7 @@ public class CreatePostTest {
 
     }
 
-    // Assumption - in real case this should be a negative test with 400 BAD REQUEST
+    // Assumption - in real case, this should be a negative test with 400 BAD REQUEST
     @Test
     @DisplayName("Test should return error on empty request.")
     public void testShouldReturnErrorOnEmptyRequest() {
@@ -100,5 +100,4 @@ public class CreatePostTest {
 
         assertTrue(actualMessage.contains(expectedMessage));
     }
-
 }

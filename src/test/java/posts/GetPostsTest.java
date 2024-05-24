@@ -40,7 +40,7 @@ public class GetPostsTest {
         assertEquals(postId, post.getId());
     }
 
-    @ParameterizedTest(name = "Search by parameter: {1}")
+    @ParameterizedTest(name = "Search parameter: {1}")
     @MethodSource("parametersProvider")
     @DisplayName("Test should successfully get list of posts by single parameter.")
     public void testShouldGetAllPostsBySingleParameter(Map<String, String> params, String key) {
@@ -77,7 +77,7 @@ public class GetPostsTest {
         assertEquals(posts.get(0).getId(), postId);
     }
 
-    @ParameterizedTest(name = "Expect empty response on invalid {0}")
+    @ParameterizedTest(name = "Parameter is {1}")
     @MethodSource("invalidParametersProvider")
     @DisplayName("Test should return empty list in response on invalid search parameter.")
     public void testShouldReturnEmptyResponseOnInvalidParameters(Map<String, String> param, String field) {
@@ -95,7 +95,7 @@ public class GetPostsTest {
 
     @Test
     @DisplayName("Test should return list of all posts on non existing parameter in request.")
-    public void testShouldReturnListOfAllPostsOnNonExistingParameter() {
+    public void testShouldReturnListOfAllPostsOnNonExistingSearchParameter() {
         Map<String, String> param = Map.of("nonExistPar", "37");
         List<PostResponse> posts = postRestService.getListOfEntities(param);
         assertEquals(100, posts.size());
