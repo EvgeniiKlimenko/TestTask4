@@ -29,8 +29,8 @@ public class UpdatePostTest {
 
     // Assumption - in real service id and userId should bot be changeable.
     @Test
-    @DisplayName("Test should successfully update existing post with valid values.")
-    public void testShouldUpdatePostWithValidValues() {
+    @DisplayName("Service should successfully update existing post with valid values.")
+    public void testServiceShouldUpdatePostWithValidValues() {
         Integer postId = RandomGenerator.getDefault().nextInt(1, 101);
         PostResponse existingPost = postRestService.getSingleEntity(postId.toString());
 
@@ -49,8 +49,8 @@ public class UpdatePostTest {
     // Assumption - in real service id and userId should bot be changeable.
     @ParameterizedTest
     @MethodSource("updateSingleFieldPositiveProvider")
-    @DisplayName("Test should successfully update a post with valid data.")
-    public void testShouldUpdatePostByIdWithSingleValidValue(String requestBody, String value) {
+    @DisplayName("Service should successfully update a post with valid data.")
+    public void testServiceShouldUpdatePostByIdWithSingleValidValue(String requestBody, String value) {
         Integer postId = RandomGenerator.getDefault().nextInt(1, 101);
         PostResponse updatedPost = postRestService.patchEntity(postId.toString(), requestBody);
         assertTrue(updatedPost.toString().contains(value));
@@ -69,8 +69,8 @@ public class UpdatePostTest {
     @Disabled("This test should check invalid values, but since API returns everything back " +
               "I receive exception on parsing response.")
     @Test
-    @DisplayName("Test should successfully get a post by ID.")
-    public void testShouldReturnErrorOnInvalidUpdateValues() {
+    @DisplayName("Service should successfully get a post by ID.")
+    public void testServiceShouldReturnErrorOnInvalidUpdateValues() {
         Integer postId = RandomGenerator.getDefault().nextInt(1, 101);
         String innerObject = PostRequest.buildGenericPostRequest().toString();
         String requestBody = POST_REQUEST_SINGLE_TEMPLATE.formatted("title", innerObject);

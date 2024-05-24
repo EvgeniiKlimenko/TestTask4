@@ -28,8 +28,8 @@ public class CreatePostTest {
                                                        """;
 
     @Test
-    @DisplayName("Test should successfully create a posts.")
-    public void testShouldCreateValidPost() {
+    @DisplayName("Service should successfully create a posts.")
+    public void testServiceShouldCreateValidPost() {
         PostRequest requestBody = PostRequest.buildGenericPostRequest();
         PostResponse createdPost = postRestService.createEntity(requestBody.toString());
 
@@ -40,8 +40,8 @@ public class CreatePostTest {
 
     // Assuming that userId is a mandatory field with validations
     @Test
-    @DisplayName("Test should successfully create a posts with only mandatory fields.")
-    public void testShouldCreateValidPostWithOnlyMandatoryFields() {
+    @DisplayName("Service should successfully create a posts with only mandatory fields.")
+    public void testServiceShouldCreateValidPostWithOnlyMandatoryFields() {
         PostRequest requestBody = PostRequest.buildGenericPostRequest();
         requestBody.setTitle("");
         requestBody.setBody("");
@@ -58,8 +58,8 @@ public class CreatePostTest {
     @ValueSource(strings = {"\"stringId\"", "101.0543", "-10"})
     @NullSource
     @EmptySource
-    @DisplayName("Test should return error on invalid userId values.")
-    public void testShouldReturnErrorOnInvalidUserId(String invalidId) {
+    @DisplayName("Service should return error on invalid userId values.")
+    public void testServiceShouldReturnErrorOnInvalidUserId(String invalidId) {
         String requestBody = POST_REQUEST_TEMPLATE.formatted("userId", invalidId);
 
         Exception exception = assertThrows(RuntimeException.class, () -> {
@@ -74,8 +74,8 @@ public class CreatePostTest {
 
     // Assumption - in real case, this should be a negative test with 400 BAD REQUEST
     @Test
-    @DisplayName("Test should return error on empty request.")
-    public void testShouldReturnErrorOnEmptyRequest() {
+    @DisplayName("Service should return error on empty request.")
+    public void testServiceShouldReturnErrorOnEmptyRequest() {
         PostResponse createdPost = postRestService.createEntity("");
 
         assertNull(createdPost.getUserId());
@@ -86,8 +86,8 @@ public class CreatePostTest {
 
     // Assumption - that non-existing fields should be validated and return 400.
     @Test
-    @DisplayName("Test should return error on non-existing field in request.")
-    public void testShouldReturnErrorOnInvalidFieldName() {
+    @DisplayName("Service should return error on non-existing field in request.")
+    public void testServiceShouldReturnErrorOnInvalidFieldName() {
         String nonExistField = "nonExist";
         String requestBody = POST_REQUEST_TEMPLATE.formatted(nonExistField, "10");
 

@@ -17,8 +17,8 @@ public class DeletePostsTest {
     private final RestService<PostResponse> postRestService = new PostsRestService();
 
     @Test
-    @DisplayName("Test should successfully delete a post by ID")
-    public void testShouldDeletePostById() {
+    @DisplayName("Service should successfully delete a post by ID")
+    public void testServiceShouldDeletePostById() {
         Response deleteResult = postRestService.deleteEntity("1");
         int code = deleteResult.getStatusCode();
         assertEquals(200, code);
@@ -27,8 +27,8 @@ public class DeletePostsTest {
     @Disabled("Assumption: in real case, this negative test should return errors in responses.")
     @ParameterizedTest(name = "Invalid value: {0}")
     @ValueSource(strings = {"wrongId", "500", "\\n"})
-    @DisplayName("Test should return error on invalid post ID")
-    public void testShouldGet404NotFoundOnInvalidId(String invalidId) {
+    @DisplayName("Service should return error on invalid post ID")
+    public void testServiceShouldGet404NotFoundOnInvalidId(String invalidId) {
         Response deleteResult = postRestService.deleteEntity(invalidId);
         int code = deleteResult.getStatusCode();
         assertEquals(404, code);

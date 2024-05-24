@@ -26,15 +26,15 @@ public class GetPostsTest {
 
 
     @Test
-    @DisplayName("Test should successfully get list of all posts.")
-    public void testShouldGetAllPosts() {
+    @DisplayName("Service should successfully get list of all posts.")
+    public void testServiceShouldGetAllPosts() {
         List<PostResponse> posts = postRestService.getAllEntities();
         assertEquals(100, posts.size());
     }
 
     @Test
-    @DisplayName("Test should successfully get a post by ID.")
-    public void testShouldGetPostById() {
+    @DisplayName("Service should successfully get a post by ID.")
+    public void testServiceShouldGetPostById() {
         Integer postId = RandomGenerator.getDefault().nextInt(1, 101);
         PostResponse post = postRestService.getSingleEntity(postId.toString());
         assertEquals(postId, post.getId());
@@ -42,8 +42,8 @@ public class GetPostsTest {
 
     @ParameterizedTest(name = "Search parameter: {1}")
     @MethodSource("parametersProvider")
-    @DisplayName("Test should successfully get list of posts by single parameter.")
-    public void testShouldGetAllPostsBySingleParameter(Map<String, String> params, String key) {
+    @DisplayName("Service should successfully get list of posts by single parameter.")
+    public void testServiceShouldGetAllPostsBySingleParameter(Map<String, String> params, String key) {
         PostResponse post = postRestService.getListOfEntities(params).get(0);
         assertTrue(post.toString().contains(params.get(key)));
     }
@@ -56,8 +56,8 @@ public class GetPostsTest {
     }
 
     @Test
-    @DisplayName("Test should successfully get list of all posts by two parameters.")
-    public void testShouldGetAllPostsByTwoParameters() {
+    @DisplayName("Service should successfully get list of all posts by two parameters.")
+    public void testServiceShouldGetAllPostsByTwoParameters() {
         Map<String, String> params = Map.of("title", EXISTING_TITLE, "userId", EXISTING_USERID);
         List<PostResponse> posts = postRestService.getListOfEntities(params);
 
@@ -67,8 +67,8 @@ public class GetPostsTest {
     }
 
     @Test
-    @DisplayName("Test should successfully get list of all posts by post ID.")
-    public void testShouldGetAllPostsByEntityId() {
+    @DisplayName("Service should successfully get list of all posts by post ID.")
+    public void testServiceShouldGetAllPostsByEntityId() {
         Integer postId = RandomGenerator.getDefault().nextInt(1, 101);
         Map<String, String> params = Map.of("id", postId.toString());
 
@@ -79,8 +79,8 @@ public class GetPostsTest {
 
     @ParameterizedTest(name = "Parameter is {1}")
     @MethodSource("invalidParametersProvider")
-    @DisplayName("Test should return empty list in response on invalid search parameter.")
-    public void testShouldReturnEmptyResponseOnInvalidParameters(Map<String, String> param, String field) {
+    @DisplayName("Service should return empty list in response on invalid search parameter.")
+    public void testServiceShouldReturnEmptyResponseOnInvalidParameters(Map<String, String> param, String field) {
         List<PostResponse> posts = postRestService.getListOfEntities(param);
         assertEquals(0, posts.size());
     }
@@ -94,8 +94,8 @@ public class GetPostsTest {
     }
 
     @Test
-    @DisplayName("Test should return list of all posts on non existing parameter in request.")
-    public void testShouldReturnListOfAllPostsOnNonExistingSearchParameter() {
+    @DisplayName("Service should return list of all posts on non existing parameter in request.")
+    public void testServiceShouldReturnListOfAllPostsOnNonExistingSearchParameter() {
         Map<String, String> param = Map.of("nonExistPar", "37");
         List<PostResponse> posts = postRestService.getListOfEntities(param);
         assertEquals(100, posts.size());
